@@ -7,7 +7,7 @@ import java.util.Comparator;
  * GKislin
  * 11.01.2015.
  */
-public class UserMeal {
+public class UserMeal extends NamedEntity{
     private Integer id;
 
     private final LocalDateTime dateTime;

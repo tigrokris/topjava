@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
@@ -9,14 +10,17 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
  * 15.09.2015.
  */
+@Repository
 public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     private Map<Integer, Map<Integer, UserMeal>> generalRepository = new ConcurrentHashMap<>();
 
@@ -64,12 +68,16 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public Collection<UserMeal> getAll(int userId) {
+    public List<UserMeal> getAll(int userId) {
 
         Map<Integer, UserMeal> repository = getRepository(userId);
         if(repository==null)
             ExceptionUtil.check(false,"user id =" +userId);
-        return (Collection<UserMeal>) repository.values().stream().sorted((o1, o2)->o1.getDateTime().compareTo(o2.getDateTime()));
+        return repository
+                .values()
+                .stream()
+                .sorted((o1, o2)->o1.getDateTime().compareTo(o2.getDateTime()))
+                .collect(Collectors.toList());
     }
 }
 
