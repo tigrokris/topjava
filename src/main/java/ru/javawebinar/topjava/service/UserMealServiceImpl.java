@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -15,6 +16,7 @@ import java.util.Collection;
  */
 @Service
 public class UserMealServiceImpl implements UserMealService {
+
 
     @Autowired
     private UserMealRepository repository;
@@ -47,5 +49,10 @@ public class UserMealServiceImpl implements UserMealService {
     @Override
     public UserMeal save(UserMeal meal, int userId) {
         return repository.save(meal, userId);
+    }
+
+    @Override
+    public Collection<UserMeal> getBetweenDates(LocalDate startDate, LocalDate endDate, int userId) {
+        return null;
     }
 }
