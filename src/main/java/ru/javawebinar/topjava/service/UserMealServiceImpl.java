@@ -51,8 +51,5 @@ public class UserMealServiceImpl implements UserMealService {
         return repository.save(meal, userId);
     }
 
-    @Override
-    public Collection<UserMeal> getBetweenDates(LocalDate startDate, LocalDate endDate, int userId) {
-        return null;
-    }
+
 }

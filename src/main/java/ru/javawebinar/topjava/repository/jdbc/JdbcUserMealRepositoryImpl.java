@@ -43,7 +43,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
                MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", userMeal.getId())
                 .addValue("user_id", userId)
-                .addValue("datet_ime", userMeal.getDateTime())
+                .addValue("date_time", userMeal.getDateTime())
                 .addValue("description", userMeal.getDescription())
                 .addValue("calories", userMeal.getCalories());
 
@@ -54,7 +54,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE meals SET description=:description, calories=:calories, " +
-                            "date_time=:datetime WHERE id=:id AND user_id=:userId", map);
+                            "date_time=:date_time WHERE id=:id AND user_id=:user_id", map);
         }
         return userMeal;
     }
@@ -77,6 +77,8 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+        return jdbcTemplate.query(
+                "SELECT * FROM meals WHERE user_id=?  AND date_time BETWEEN  ? AND ? ORDER BY date_time DESC",
+                ROW_MAPPER, userId, startDate, endDate);
     }
 }
